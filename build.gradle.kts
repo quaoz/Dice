@@ -10,10 +10,13 @@ repositories {
 }
 
 dependencies {
-
-    implementation("org.jetbrains:annotations:20.1.0")
+    implementation("org.jetbrains:annotations:23.0.0")
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+tasks.withType<Jar> {
+    manifest {
+        attributes("Main-Class" to "com.github.quaoz.Main")
+    }
+
+    from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }
